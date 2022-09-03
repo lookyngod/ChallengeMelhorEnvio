@@ -89,6 +89,13 @@ type Service struct {
 }
 type Latencies struct {
 	Proxy   int64 `json:"proxy"`
-	Kong    int64 `json:"kong"`
+	Gateway int64 `json:"gateway"`
 	Request int64 `json:"request"`
+}
+
+type AverageRecord struct {
+	Quantity    int64
+	RequestTime int64
+	ProxyTime   int64
+	GatewayTime int64
 }
