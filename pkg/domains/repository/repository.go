@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func SaveLog(db *gorm.DB, log model.Log) error {
+func SaveLogInDB(db *gorm.DB, log model.Log) error {
 	log.ID = uuid.New()
 	result := db.Create(log)
 	if result.Error != nil {

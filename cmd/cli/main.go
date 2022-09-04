@@ -35,7 +35,7 @@ func main() {
 			fmt.Println("go func rodando")
 			defer wg.Done()
 
-			err := repository.SaveLog(db, log)
+			err := repository.SaveLogInDB(db, log)
 			if err != nil {
 				panic(err)
 			}
