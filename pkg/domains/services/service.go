@@ -58,3 +58,79 @@ func GenerateAverageReport(logs []model.Log) error {
 
 	return nil
 }
+
+func GenerateRequestPerConsumerReport(logs []model.Log) error {
+
+	records := [][]string{
+		{"services", "requests"},
+	}
+
+	recordMap := make(map[string]int64, 0)
+
+	for _, log := range logs {
+
+		recordMap[log.Service.Name] += 1
+
+	}
+
+	for services, record := range recordMap {
+		records = append(records, []string{
+			fmt.Sprintf("%v", services),
+			fmt.Sprintf("%v", record),
+		})
+	}
+
+	file, err := os.Create("report_request_per_services.csv")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	err = writer.WriteAll(records)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func GenerateRequestPerServicesReport(logs []model.Log) error {
+
+	records := [][]string{
+		{"consumer", "requests"},
+	}
+
+	recordMap := make(map[string]int64, 0)
+
+	for _, log := range logs {
+
+		recordMap[log.AuthenticatedEntity.ConsumerID.UUID] += 1
+
+	}
+
+	for consumer, record := range recordMap {
+		records = append(records, []string{
+			fmt.Sprintf("%v", consumer),
+			fmt.Sprintf("%v", record),
+		})
+	}
+
+	file, err := os.Create("report_request_per_consumer.csv")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	err = writer.WriteAll(records)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

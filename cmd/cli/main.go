@@ -46,7 +46,7 @@ func main() {
 	}
 	fmt.Println("Log saved")
 
-	wg.Add(1)
+	wg.Add(3)
 
 	go func(logs []model.Log) {
 
@@ -59,5 +59,33 @@ func main() {
 		fmt.Println("Time average report generated")
 
 	}(logs)
+
+	go func(logs []model.Log) {
+
+		defer wg.Done()
+
+		err := services.GenerateRequestPerConsumerReport(logs)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("Time average per consumer report generated")
+
+	}(logs)
+
+	go func(logs []model.Log) {
+
+		defer wg.Done()
+
+		err := services.GenerateRequestPerServicesReport(logs)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("Time average per services report generated")
+
+	}(logs)
+
+	wg.Wait()
+
+	db.Commit()
 
 }

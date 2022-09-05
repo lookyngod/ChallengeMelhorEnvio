@@ -9,7 +9,9 @@ import (
 
 func ConnectDB() *gorm.DB {
 	dsn := "root:Melhor1#@/melhorenvio"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		SkipDefaultTransaction: true,
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -18,6 +20,8 @@ func ConnectDB() *gorm.DB {
 	if err != nil {
 		panic(err)
 	}
+
+	db = db.Begin()
 
 	return db
 
