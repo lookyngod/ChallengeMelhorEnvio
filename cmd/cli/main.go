@@ -15,11 +15,17 @@ import (
 )
 
 func main() {
+	// Connect to database
 	db := database.ConnectDB()
+	// Scan file input
 	scanner := bufio.NewScanner(os.Stdin)
+
+	// Wait group to wait all goroutines finish
 	wg := sync.WaitGroup{}
+
 	var logs []model.Log
 
+	// Read the file line by line
 	for scanner.Scan() {
 		var log model.Log
 
@@ -27,11 +33,13 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
+
 		logs = append(logs, log)
 
 		fmt.Println("Number of logs: ", len(logs))
 
 		wg.Add(1)
+		// Save log in database
 		go func(db *gorm.DB, log model.Log) {
 
 			defer wg.Done()
@@ -45,14 +53,13 @@ func main() {
 
 	}
 	fmt.Println("Log saved")
-
 	wg.Add(3)
-
+	// Generate report
 	go func(logs []model.Log) {
 
 		defer wg.Done()
 
-		err := services.GenerateAverageTimeServiceReport(logs)
+		err := services.GenerateAverageTimeServicesReport(logs)
 		if err != nil {
 			panic(err)
 		}
@@ -60,6 +67,7 @@ func main() {
 
 	}(logs)
 
+	// Generate report
 	go func(logs []model.Log) {
 
 		defer wg.Done()
@@ -72,20 +80,21 @@ func main() {
 
 	}(logs)
 
+	// Generate report
 	go func(logs []model.Log) {
 
 		defer wg.Done()
 
-		err := services.GenerateRequestPerServicesReport(logs)
+		err := services.GenerateRequestPerServiceReport(logs)
 		if err != nil {
 			panic(err)
 		}
 		fmt.Println("Time average per services report generated")
 
 	}(logs)
-
+	// Wait all goroutines finish
 	wg.Wait()
-
+	// Commit transaction
 	db.Commit()
 
 }

@@ -7,7 +7,9 @@ import (
 	"os"
 )
 
-func GenerateAverageTimeServiceReport(logs []model.Log) error {
+// Function to generate report with average time of services
+
+func GenerateAverageTimeServicesReport(logs []model.Log) error {
 
 	records := [][]string{
 		{"service", "request_time", "proxy_time", "gateway_time"},
@@ -53,7 +55,9 @@ func GenerateAverageTimeServiceReport(logs []model.Log) error {
 	return nil
 }
 
-func GenerateRequestPerConsumerReport(logs []model.Log) error {
+// Function to generate report with request per service
+
+func GenerateRequestPerServiceReport(logs []model.Log) error {
 
 	records := [][]string{
 		{"services", "requests"},
@@ -91,7 +95,9 @@ func GenerateRequestPerConsumerReport(logs []model.Log) error {
 	return nil
 }
 
-func GenerateRequestPerServicesReport(logs []model.Log) error {
+// Function to generate report with number of requests per consumer
+
+func GenerateRequestPerConsumerReport(logs []model.Log) error {
 
 	records := [][]string{
 		{"consumer", "requests"},
