@@ -52,7 +52,7 @@ func main() {
 
 		defer wg.Done()
 
-		err := services.GenerateAverageReport(logs)
+		err := services.GenerateAverageTimeServiceReport(logs)
 		if err != nil {
 			panic(err)
 		}

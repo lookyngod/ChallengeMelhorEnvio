@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func GenerateAverageReport(logs []model.Log) error {
+func GenerateAverageTimeServiceReport(logs []model.Log) error {
 
 	records := [][]string{
 		{"service", "request_time", "proxy_time", "gateway_time"},
