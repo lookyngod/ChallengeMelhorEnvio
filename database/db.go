@@ -7,6 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// Connect to database
+
 func ConnectDB() *gorm.DB {
 	dsn := "root:Melhor1#@/melhorenvio"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
