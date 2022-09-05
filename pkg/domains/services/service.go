@@ -27,8 +27,6 @@ func GenerateAverageReport(logs []model.Log) error {
 
 	}
 
-	fmt.Println("CHEGOU aqui")
-
 	for service, record := range recordMap {
 		records = append(records, []string{
 			fmt.Sprintf("%v", service),
@@ -38,15 +36,11 @@ func GenerateAverageReport(logs []model.Log) error {
 		})
 	}
 
-	fmt.Println("CHEGOU AQUI2")
-
 	file, err := os.Create("report_time_average.csv")
 	if err != nil {
 		return err
 	}
 	defer file.Close()
-
-	fmt.Println("CHEGOU AQUI3")
 
 	writer := csv.NewWriter(file)
 	defer writer.Flush()

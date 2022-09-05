@@ -29,7 +29,7 @@ func main() {
 		}
 		logs = append(logs, log)
 
-		fmt.Println("debug bytes", scanner.Bytes())
+		fmt.Println("Number of logs: ", len(logs))
 
 		wg.Add(1)
 		go func(db *gorm.DB, log model.Log) {
